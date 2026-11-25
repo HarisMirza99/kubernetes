@@ -1,0 +1,229 @@
+[2026-11-25 17:01:12.219] deleting web pod emi-web-55d68c66cf-k7tds
+
+$ kubectl -n emi delete pod emi-web-55d68c66cf-k7tds --wait=false
+pod "emi-web-55d68c66cf-k7tds" deleted from emi namespace
+
+$ kubectl -n emi get pods -l app=emi-web -o wide
+NAME                       READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+emi-web-55d68c66cf-khldm   1/1     Running   0          40s     10.244.0.31   minikube   <none>           <none>
+emi-web-55d68c66cf-lrx89   1/1     Running   0          3m27s   10.244.0.26   minikube   <none>           <none>
+emi-web-55d68c66cf-sr6lf   1/1     Running   0          3m39s   10.244.0.24   minikube   <none>           <none>
+emi-web-55d68c66cf-tzbm7   1/1     Running   0          61s     10.244.0.29   minikube   <none>           <none>
+emi-web-55d68c66cf-vh7lr   1/1     Running   0          61s     10.244.0.30   minikube   <none>           <none>
+
+$ kubectl get pods -n emi -w   (timestamped)
+[2026-11-25 17:01:09.270] NAME                       READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+[2026-11-25 17:01:09.270] emi-web-55d68c66cf-k7tds   1/1     Running   0          2m38s   10.244.0.27   minikube   <none>           <none>
+[2026-11-25 17:01:09.270] emi-web-55d68c66cf-lrx89   1/1     Running   0          2m44s   10.244.0.26   minikube   <none>           <none>
+[2026-11-25 17:01:09.270] emi-web-55d68c66cf-sr6lf   1/1     Running   0          2m56s   10.244.0.24   minikube   <none>           <none>
+[2026-11-25 17:01:09.270] emi-web-55d68c66cf-tzbm7   1/1     Running   0          18s     10.244.0.29   minikube   <none>           <none>
+[2026-11-25 17:01:09.270] emi-web-55d68c66cf-vh7lr   1/1     Running   0          18s     10.244.0.30   minikube   <none>           <none>
+[2026-11-25 17:01:12.336] emi-web-55d68c66cf-k7tds   1/1     Terminating   0          2m41s   10.244.0.27   minikube   <none>           <none>
+[2026-11-25 17:01:12.364] emi-web-55d68c66cf-khldm   0/1     Pending       0          0s      <none>        <none>     <none>           <none>
+[2026-11-25 17:01:12.374] emi-web-55d68c66cf-k7tds   1/1     Terminating   0          2m41s   10.244.0.27   minikube   <none>           <none>
+[2026-11-25 17:01:12.382] emi-web-55d68c66cf-khldm   0/1     Pending       0          0s      <none>        minikube   <none>           <none>
+[2026-11-25 17:01:12.406] emi-web-55d68c66cf-khldm   0/1     ContainerCreating   0          0s      <none>        minikube   <none>           <none>
+[2026-11-25 17:01:12.785] emi-web-55d68c66cf-khldm   0/1     ContainerCreating   0          0s      <none>        minikube   <none>           <none>
+[2026-11-25 17:01:12.829] emi-web-55d68c66cf-khldm   0/1     Running             0          0s      10.244.0.31   minikube   <none>           <none>
+[2026-11-25 17:01:18.524] emi-web-55d68c66cf-khldm   1/1     Running             0          6s      10.244.0.31   minikube   <none>           <none>
+[2026-11-25 17:01:18.539] emi-web-55d68c66cf-khldm   1/1     Running             0          6s      10.244.0.31   minikube   <none>           <none>
+[2026-11-25 17:01:22.631] emi-web-55d68c66cf-k7tds   0/1     Completed           0          2m51s   10.244.0.27   minikube   <none>           <none>
+[2026-11-25 17:01:23.548] emi-web-55d68c66cf-k7tds   0/1     Completed           0          2m52s   10.244.0.27   minikube   <none>           <none>
+[2026-11-25 17:01:23.557] emi-web-55d68c66cf-k7tds   0/1     Completed           0          2m52s   10.244.0.27   minikube   <none>           <none>
+
+--- requests through the Ingress during the test ---
+2026-11-25 17:01:09.230  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  13.3 ms
+2026-11-25 17:01:09.445  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  13.6 ms
+2026-11-25 17:01:09.659  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  12.8 ms
+2026-11-25 17:01:09.876  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  16.2 ms
+2026-11-25 17:01:10.093  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  14.6 ms
+2026-11-25 17:01:10.308  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  14.6 ms
+2026-11-25 17:01:10.537  HTTP 200  servedBy=emi-web-55d68c66cf-k7tds     version=1.0  24.9 ms
+2026-11-25 17:01:10.771  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  29.0 ms
+2026-11-25 17:01:10.997  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  20.7 ms
+2026-11-25 17:01:11.222  HTTP 200  servedBy=emi-web-55d68c66cf-k7tds     version=1.0  20.6 ms
+2026-11-25 17:01:11.456  HTTP 200  servedBy=emi-web-55d68c66cf-k7tds     version=1.0  28.4 ms
+2026-11-25 17:01:11.733  HTTP 200  servedBy=emi-web-55d68c66cf-k7tds     version=1.0  71.0 ms
+2026-11-25 17:01:11.956  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.0 ms
+2026-11-25 17:01:12.191  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  33.7 ms
+2026-11-25 17:01:12.416  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  23.2 ms
+2026-11-25 17:01:12.643  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  25.3 ms
+2026-11-25 17:01:12.860  HTTP 200  servedBy=emi-web-55d68c66cf-k7tds     version=1.0  15.4 ms
+2026-11-25 17:01:13.075  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  13.8 ms
+2026-11-25 17:01:13.292  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.0 ms
+2026-11-25 17:01:13.506  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  12.8 ms
+2026-11-25 17:01:13.720  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  11.5 ms
+2026-11-25 17:01:13.933  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  11.3 ms
+2026-11-25 17:01:14.158  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  19.5 ms
+2026-11-25 17:01:14.374  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  13.0 ms
+2026-11-25 17:01:14.595  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.0 ms
+2026-11-25 17:01:14.817  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.1 ms
+2026-11-25 17:01:15.035  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  12.4 ms
+2026-11-25 17:01:15.260  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  19.7 ms
+2026-11-25 17:01:15.487  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  22.4 ms
+2026-11-25 17:01:15.711  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.8 ms
+2026-11-25 17:01:15.932  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  15.0 ms
+2026-11-25 17:01:16.154  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  18.2 ms
+2026-11-25 17:01:16.384  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  25.0 ms
+2026-11-25 17:01:16.603  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  15.0 ms
+2026-11-25 17:01:16.822  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  18.3 ms
+2026-11-25 17:01:17.045  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  22.0 ms
+2026-11-25 17:01:17.268  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  17.5 ms
+2026-11-25 17:01:17.495  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  26.1 ms
+2026-11-25 17:01:17.716  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  19.8 ms
+2026-11-25 17:01:17.934  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  16.5 ms
+2026-11-25 17:01:18.154  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  13.8 ms
+2026-11-25 17:01:18.375  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  15.8 ms
+2026-11-25 17:01:18.591  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  12.5 ms
+2026-11-25 17:01:18.828  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  31.1 ms
+2026-11-25 17:01:19.051  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  17.5 ms
+2026-11-25 17:01:19.273  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.3 ms
+2026-11-25 17:01:19.501  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  22.9 ms
+2026-11-25 17:01:19.717  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  15.5 ms
+2026-11-25 17:01:19.939  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  20.9 ms
+2026-11-25 17:01:20.162  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  18.3 ms
+2026-11-25 17:01:20.476  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  109.4 ms
+2026-11-25 17:01:20.693  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  16.2 ms
+2026-11-25 17:01:20.923  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  24.2 ms
+2026-11-25 17:01:21.149  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  23.3 ms
+2026-11-25 17:01:21.367  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  17.7 ms
+2026-11-25 17:01:21.595  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  24.0 ms
+2026-11-25 17:01:21.813  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  16.9 ms
+2026-11-25 17:01:22.034  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  19.0 ms
+2026-11-25 17:01:22.260  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.7 ms
+2026-11-25 17:01:22.478  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  12.5 ms
+2026-11-25 17:01:22.696  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  11.9 ms
+2026-11-25 17:01:22.917  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  16.5 ms
+2026-11-25 17:01:23.138  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.5 ms
+2026-11-25 17:01:23.359  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.5 ms
+2026-11-25 17:01:23.573  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  12.0 ms
+2026-11-25 17:01:23.791  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  13.8 ms
+2026-11-25 17:01:24.026  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  29.5 ms
+2026-11-25 17:01:24.247  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  18.7 ms
+2026-11-25 17:01:24.467  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.0 ms
+2026-11-25 17:01:24.682  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  12.2 ms
+2026-11-25 17:01:24.907  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  19.2 ms
+2026-11-25 17:01:25.130  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.6 ms
+2026-11-25 17:01:25.356  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  20.8 ms
+2026-11-25 17:01:25.583  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  22.8 ms
+2026-11-25 17:01:25.813  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  27.0 ms
+2026-11-25 17:01:26.029  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  13.0 ms
+2026-11-25 17:01:26.257  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  26.3 ms
+2026-11-25 17:01:26.485  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  23.4 ms
+2026-11-25 17:01:26.704  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  14.1 ms
+2026-11-25 17:01:26.931  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  22.6 ms
+2026-11-25 17:01:27.153  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  18.0 ms
+2026-11-25 17:01:27.381  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  22.8 ms
+2026-11-25 17:01:27.605  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  21.0 ms
+2026-11-25 17:01:27.829  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  22.1 ms
+2026-11-25 17:01:28.054  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  23.4 ms
+2026-11-25 17:01:28.275  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  20.0 ms
+2026-11-25 17:01:28.496  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  20.4 ms
+2026-11-25 17:01:28.716  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  16.8 ms
+2026-11-25 17:01:28.942  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  20.6 ms
+2026-11-25 17:01:29.167  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.3 ms
+2026-11-25 17:01:29.393  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  24.5 ms
+2026-11-25 17:01:29.615  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.6 ms
+2026-11-25 17:01:29.838  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  17.1 ms
+2026-11-25 17:01:30.060  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  20.2 ms
+2026-11-25 17:01:30.293  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  27.2 ms
+2026-11-25 17:01:30.520  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  26.1 ms
+2026-11-25 17:01:30.744  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.7 ms
+2026-11-25 17:01:30.970  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  24.9 ms
+2026-11-25 17:01:31.195  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  19.3 ms
+2026-11-25 17:01:31.425  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.9 ms
+2026-11-25 17:01:31.644  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  15.4 ms
+2026-11-25 17:01:31.871  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  21.0 ms
+2026-11-25 17:01:32.091  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  16.1 ms
+2026-11-25 17:01:32.314  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  20.2 ms
+2026-11-25 17:01:32.534  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  17.9 ms
+2026-11-25 17:01:32.762  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  22.0 ms
+2026-11-25 17:01:32.981  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.1 ms
+2026-11-25 17:01:33.203  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.2 ms
+2026-11-25 17:01:33.430  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  21.3 ms
+2026-11-25 17:01:33.652  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  18.5 ms
+2026-11-25 17:01:33.873  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  19.8 ms
+2026-11-25 17:01:34.089  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  13.1 ms
+2026-11-25 17:01:34.313  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  18.6 ms
+2026-11-25 17:01:34.534  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.7 ms
+2026-11-25 17:01:34.756  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  15.8 ms
+2026-11-25 17:01:34.975  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.3 ms
+2026-11-25 17:01:35.196  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  18.5 ms
+2026-11-25 17:01:35.426  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  26.0 ms
+2026-11-25 17:01:35.648  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  16.3 ms
+2026-11-25 17:01:35.869  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  20.1 ms
+2026-11-25 17:01:36.088  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  14.9 ms
+2026-11-25 17:01:36.309  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  15.0 ms
+2026-11-25 17:01:36.534  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  21.9 ms
+2026-11-25 17:01:36.750  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  14.8 ms
+2026-11-25 17:01:36.977  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  25.3 ms
+2026-11-25 17:01:37.202  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.9 ms
+2026-11-25 17:01:37.425  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  17.9 ms
+2026-11-25 17:01:37.648  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  19.1 ms
+2026-11-25 17:01:37.868  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  18.0 ms
+2026-11-25 17:01:38.090  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  16.8 ms
+2026-11-25 17:01:38.321  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  25.6 ms
+2026-11-25 17:01:38.542  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  21.4 ms
+2026-11-25 17:01:38.764  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  20.3 ms
+2026-11-25 17:01:38.990  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  22.0 ms
+2026-11-25 17:01:39.217  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  23.4 ms
+2026-11-25 17:01:39.444  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  23.2 ms
+2026-11-25 17:01:39.658  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  9.8 ms
+2026-11-25 17:01:39.881  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.4 ms
+2026-11-25 17:01:40.102  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  16.8 ms
+2026-11-25 17:01:40.327  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  19.5 ms
+2026-11-25 17:01:40.552  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  24.1 ms
+2026-11-25 17:01:40.780  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  23.5 ms
+2026-11-25 17:01:41.000  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  17.6 ms
+2026-11-25 17:01:41.226  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.6 ms
+2026-11-25 17:01:41.452  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  23.1 ms
+2026-11-25 17:01:41.676  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  22.1 ms
+2026-11-25 17:01:41.913  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  35.6 ms
+2026-11-25 17:01:42.136  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  19.7 ms
+2026-11-25 17:01:42.360  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  23.0 ms
+2026-11-25 17:01:42.579  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  15.6 ms
+2026-11-25 17:01:42.812  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  26.8 ms
+2026-11-25 17:01:43.036  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  20.8 ms
+2026-11-25 17:01:43.264  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  22.1 ms
+2026-11-25 17:01:43.495  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  27.1 ms
+2026-11-25 17:01:43.712  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  11.9 ms
+2026-11-25 17:01:43.937  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  19.5 ms
+2026-11-25 17:01:44.157  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  14.6 ms
+2026-11-25 17:01:44.381  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  18.0 ms
+2026-11-25 17:01:44.606  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.6 ms
+2026-11-25 17:01:44.832  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  25.2 ms
+2026-11-25 17:01:45.057  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  21.5 ms
+2026-11-25 17:01:45.284  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  21.7 ms
+2026-11-25 17:01:45.511  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  23.7 ms
+2026-11-25 17:01:45.737  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  19.8 ms
+2026-11-25 17:01:45.956  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  18.9 ms
+2026-11-25 17:01:46.182  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.6 ms
+2026-11-25 17:01:46.412  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.8 ms
+2026-11-25 17:01:46.641  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  22.9 ms
+2026-11-25 17:01:46.872  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  28.4 ms
+2026-11-25 17:01:47.098  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  20.4 ms
+2026-11-25 17:01:47.325  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  23.5 ms
+2026-11-25 17:01:47.543  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  16.8 ms
+2026-11-25 17:01:47.768  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  18.5 ms
+2026-11-25 17:01:48.000  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  27.2 ms
+2026-11-25 17:01:48.229  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  27.9 ms
+2026-11-25 17:01:48.452  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  17.5 ms
+2026-11-25 17:01:48.666  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  12.2 ms
+2026-11-25 17:01:48.892  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  20.4 ms
+2026-11-25 17:01:49.111  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  16.6 ms
+2026-11-25 17:01:49.333  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  21.2 ms
+2026-11-25 17:01:49.571  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  32.5 ms
+2026-11-25 17:01:49.792  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  17.7 ms
+2026-11-25 17:01:50.017  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  22.3 ms
+2026-11-25 17:01:50.244  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  21.6 ms
+2026-11-25 17:01:50.487  HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf     version=1.0  38.0 ms
+2026-11-25 17:01:50.707  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  17.1 ms
+2026-11-25 17:01:50.934  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  24.7 ms
+2026-11-25 17:01:51.156  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  17.0 ms
+2026-11-25 17:01:51.389  HTTP 200  servedBy=emi-web-55d68c66cf-lrx89     version=1.0  29.8 ms
+2026-11-25 17:01:51.613  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  18.6 ms
+2026-11-25 17:01:51.836  HTTP 200  servedBy=emi-web-55d68c66cf-khldm     version=1.0  21.6 ms
+2026-11-25 17:01:52.063  HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7     version=1.0  24.8 ms
+2026-11-25 17:01:52.286  HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr     version=1.0  17.4 ms
+
+TOTAL requests: 193   OK: 193   FAILED: 0

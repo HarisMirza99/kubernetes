@@ -1,0 +1,52 @@
+===== BEFORE deleting mongo-1 =====
+
+$ kubectl -n emi get pod mongo-1 -o wide
+NAME      READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+mongo-1   1/1     Running   0          9m24s   10.244.0.13   minikube   <none>           <none>
+
+$ kubectl -n emi get pvc data-mongo-1
+NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+data-mongo-1   Bound    pvc-a7711134-41d8-4011-9036-5ebc8cc2dc61   1Gi        RWO            standard       <unset>                 9m24s
+
+$ PVC used by pod mongo-1
+data-mongo-1
+
+$ PVC uid
+a7711134-41d8-4011-9036-5ebc8cc2dc61
+
+pod uid before: 2b774217-4f4f-42d3-97bd-040c5bb7e962
+
+$ documents seen by mongo-1 (read from its own disk)
+7
+
+===== [2026-11-25 16:38:03.577] DELETING pod mongo-1 =====
+
+$ kubectl -n emi delete pod mongo-1 --wait=true
+pod "mongo-1" deleted from emi namespace
+
+===== [2026-11-25 16:38:30.447] AFTER: StatefulSet re-created mongo-1 =====
+
+$ kubectl -n emi get pod mongo-1 -o wide
+NAME      READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+mongo-1   1/1     Running   0          16s   10.244.0.14   minikube   <none>           <none>
+pod uid after: b7efebca-4e7b-4a5d-8a0f-f42b1dce1206  (new pod object, SAME name)
+
+$ kubectl -n emi get pvc data-mongo-1
+NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+data-mongo-1   Bound    pvc-a7711134-41d8-4011-9036-5ebc8cc2dc61   1Gi        RWO            standard       <unset>                 9m52s
+
+$ PVC used by pod mongo-1
+data-mongo-1
+
+$ PVC uid
+a7711134-41d8-4011-9036-5ebc8cc2dc61
+
+$ documents seen by mongo-1 after restart
+7
+
+$ rs.status()
+mongo-0.mongo:27017  PRIMARY
+mongo-1.mongo:27017  SECONDARY
+mongo-2.mongo:27017  SECONDARY
+
+RESULT: documents before = 7, after = 7 -> NO DATA LOST; PVC name and uid unchanged.

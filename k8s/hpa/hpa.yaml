@@ -1,0 +1,34 @@
+# Milestone 04 only. Kept in a sub-folder so "kubectl apply -f k8s/" does not create it
+# (it would fight with the manual "kubectl scale" experiments of Milestones 03/04).
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: emi-web
+  namespace: emi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: emi-web
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 60     # default is 300s; shortened so scale-down is visible in the 3-min cool-down
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15

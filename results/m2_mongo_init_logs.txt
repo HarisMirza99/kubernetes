@@ -1,0 +1,15 @@
+
+$ kubectl -n emi logs job/mongo-init
+waiting for mongo-0.mongo ...
+mongo-0.mongo is up
+mongo-1.mongo is up
+mongo-2.mongo is up
+{
+  ok: 1
+}
+waiting for 1 PRIMARY + 2 SECONDARY ...
+rs.status() members:
+  mongo-0.mongo:27017  SECONDARY
+  mongo-1.mongo:27017  SECONDARY
+  mongo-2.mongo:27017  SECONDARY
+replica set rs0 is ready

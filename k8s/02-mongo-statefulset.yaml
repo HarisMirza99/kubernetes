@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  namespace: emi
+spec:
+  serviceName: mongo
+  replicas: 3
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo:7.0
+          args: ["--replSet", "rs0", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.25"]
+          ports:
+            - name: mongo
+              containerPort: 27017
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 768Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 1Gi

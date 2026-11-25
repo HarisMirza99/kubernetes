@@ -1,0 +1,39 @@
+# Initiates replica set rs0 with mongo-0/1/2 (safe to re-run: skips if already initiated)
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-init
+  namespace: emi
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mongo-init
+          image: mongo:7.0
+          command: ["bash", "-c"]
+          args:
+            - |
+              set -e
+              for h in mongo-0.mongo mongo-1.mongo mongo-2.mongo; do
+                until mongosh --host "$h" --quiet --eval 'db.adminCommand({ping: 1}).ok' >/dev/null 2>&1; do
+                  echo "waiting for $h ..."; sleep 3
+                done
+                echo "$h is up"
+              done
+              mongosh --host mongo-0.mongo --quiet --eval '
+                try { rs.status(); print("Replica set rs0 already initiated"); }
+                catch (e) {
+                  printjson(rs.initiate({ _id: "rs0", members: [
+                    { _id: 0, host: "mongo-0.mongo:27017", priority: 2 },
+                    { _id: 1, host: "mongo-1.mongo:27017", priority: 1 },
+                    { _id: 2, host: "mongo-2.mongo:27017", priority: 1 } ] }));
+                }'
+              echo "waiting for 1 PRIMARY + 2 SECONDARY ..."
+              until mongosh --host mongo-0.mongo --quiet --eval 'rs.status().members.filter(m => ["PRIMARY","SECONDARY"].includes(m.stateStr)).length === 3' | grep -q true; do
+                sleep 2
+              done
+              echo "rs.status() members:"
+              mongosh --host mongo-0.mongo --quiet --eval 'rs.status().members.forEach(m => print("  " + m.name + "  " + m.stateStr))'
+              echo "replica set rs0 is ready"

@@ -1,0 +1,49 @@
+
+$ kubectl -n emi get pods -l app=emi-web -o wide
+NAME                       READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
+emi-web-55d68c66cf-k7tds   1/1     Running   0          2m37s   10.244.0.27   minikube   <none>           <none>
+emi-web-55d68c66cf-lrx89   1/1     Running   0          2m43s   10.244.0.26   minikube   <none>           <none>
+emi-web-55d68c66cf-sr6lf   1/1     Running   0          2m55s   10.244.0.24   minikube   <none>           <none>
+emi-web-55d68c66cf-tzbm7   1/1     Running   0          17s     10.244.0.29   minikube   <none>           <none>
+emi-web-55d68c66cf-vh7lr   1/1     Running   0          17s     10.244.0.30   minikube   <none>           <none>
+
+30 x POST /api/emi through the Ingress (http://emi.local)
+request  1: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (18 ms)
+request  2: HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7  (10 ms)
+request  3: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (11 ms)
+request  4: HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7  (8 ms)
+request  5: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (9 ms)
+request  6: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (8 ms)
+request  7: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (7 ms)
+request  8: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (7 ms)
+request  9: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (7 ms)
+request 10: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (7 ms)
+request 11: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (7 ms)
+request 12: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (7 ms)
+request 13: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (6 ms)
+request 14: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (7 ms)
+request 15: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (7 ms)
+request 16: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (7 ms)
+request 17: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (7 ms)
+request 18: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (6 ms)
+request 19: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (7 ms)
+request 20: HTTP 200  servedBy=emi-web-55d68c66cf-k7tds  (7 ms)
+request 21: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (6 ms)
+request 22: HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7  (6 ms)
+request 23: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (8 ms)
+request 24: HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7  (6 ms)
+request 25: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (9 ms)
+request 26: HTTP 200  servedBy=emi-web-55d68c66cf-sr6lf  (7 ms)
+request 27: HTTP 200  servedBy=emi-web-55d68c66cf-tzbm7  (8 ms)
+request 28: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (7 ms)
+request 29: HTTP 200  servedBy=emi-web-55d68c66cf-vh7lr  (9 ms)
+request 30: HTTP 200  servedBy=emi-web-55d68c66cf-lrx89  (6 ms)
+
+Requests served per pod:
+Pod                               Requests
+emi-web-55d68c66cf-k7tds                 6
+emi-web-55d68c66cf-lrx89                 7
+emi-web-55d68c66cf-sr6lf                 6
+emi-web-55d68c66cf-tzbm7                 5
+emi-web-55d68c66cf-vh7lr                 6
+TOTAL                                   30   failed: 0

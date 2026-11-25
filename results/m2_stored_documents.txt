@@ -1,0 +1,44 @@
+$ number of documents in emidb.calculations
+7
+
+$ last 5 documents
+{
+  principal: 500000,
+  rate: 12,
+  months: 24,
+  emi: 23536.74,
+  servedBy: 'emi-web-55d68c66cf-4rk6f',
+  createdAt: ISODate('2026-11-25T11:34:13.912Z')
+}
+{
+  principal: 1100000,
+  rate: 8,
+  months: 48,
+  emi: 26854.21,
+  servedBy: 'emi-web-55d68c66cf-4rk6f',
+  createdAt: ISODate('2026-11-25T11:33:58.683Z')
+}
+{
+  principal: 1100000,
+  rate: 8,
+  months: 24,
+  emi: 49750.02,
+  servedBy: 'emi-web-55d68c66cf-4rk6f',
+  createdAt: ISODate('2026-11-25T11:33:53.016Z')
+}
+{
+  principal: 1100000,
+  rate: 15,
+  months: 24,
+  emi: 53335.31,
+  servedBy: 'emi-web-55d68c66cf-4rk6f',
+  createdAt: ISODate('2026-11-25T11:33:47.928Z')
+}
+{
+  principal: 2200000,
+  rate: 15,
+  months: 24,
+  emi: 106670.63,
+  servedBy: 'emi-web-55d68c66cf-4rk6f',
+  createdAt: ISODate('2026-11-25T11:33:39.412Z')
+}
